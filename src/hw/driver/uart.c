@@ -18,15 +18,20 @@ static bool is_open[UART_MAX_CH];
 extern uint32_t cdc_Available(void);
 
 //데이터를 읽어가는 함수
-extern uint8_t cdcRead(void);
+extern uint8_t  cdcRead(void);
 
 
 //버퍼에 데이터를 쓰는 함수
-extern void cdcDataIn(uint8_t rx_data);
+extern void     cdcDataIn(uint8_t rx_data);
 
 
 //usb 통신으로 데이터를 보내는 함수
 extern uint32_t cdcWrite(uint8_t *p_data, uint32_t length);
+
+
+extern uint32_t cdcGetBaud(void);
+
+
 
 bool uartInit(void)
 {
@@ -112,3 +117,19 @@ uint32_t uartPrintf(uint8_t ch, char *fmt, ...)
 	return ret;
 
 }
+
+uint32_t uartGetBaud(uint8_t ch)
+{
+	uint32_t ret = 0;
+
+	switch(ch)
+	{
+		case _DEF_UART1:
+			ret = cdcGetBaud();
+			break;
+
+	}
+
+	return ret;
+}
+

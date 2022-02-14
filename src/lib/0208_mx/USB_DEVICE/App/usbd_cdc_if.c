@@ -25,6 +25,14 @@
 /* USER CODE BEGIN INCLUDE */
 //버퍼를 만들기 위한 필수요소
 
+USBD_CDC_LineCodingTypeDef LineCoding =
+		{
+				115200,
+				0x00,
+				0x00,
+				0x00
+		};
+
 uint32_t rx_in  = 0;
 uint32_t rx_out = 0;
 uint32_t rx_len = 512;
@@ -108,6 +116,14 @@ uint32_t cdcWrite(uint8_t *p_data, uint32_t length)
 
 	return 0;
 }
+
+
+// 현재 설정된 Baudrate가 얼만지 확인할수 있는 API 하나 추가
+uint32_t cdcGetBaud(void)
+{
+	return LineCoding.bitrate;
+}
+
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -303,10 +319,26 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   /* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
   /*******************************************************************************/
     case CDC_SET_LINE_CODING:
+    	LineCoding.bitrate  = (uint32_t)(pbuf[0]);
+    	LineCoding.bitrate |= (uint32_t)(pbuf[1]<<8);
+    	LineCoding.bitrate |= (uint32_t)(pbuf[2]<<16);
+    	LineCoding.bitrate |= (uint32_t)(pbuf[3]<<24);
+    	LineCoding.format     = pbuf[4];
+    	LineCoding.paritytype = pbuf[5];
+    	LineCoding.datatype   = pbuf[6];
+
 
     break;
 
     case CDC_GET_LINE_CODING:
+    	pbuf[0] = (uint8_t)(LineCoding.bitrate);
+    	pbuf[1] = (uint8_t)(LineCoding.bitrate>>8);
+    	pbuf[2] = (uint8_t)(LineCoding.bitrate>>16);
+    	pbuf[3] = (uint8_t)(LineCoding.bitrate>>24);
+    	pbuf[4] = LineCoding.format;
+    	pbuf[5] = LineCoding.paritytype;
+    	pbuf[6] = LineCoding.datatype;
+
 
     break;
 
