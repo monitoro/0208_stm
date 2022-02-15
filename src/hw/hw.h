@@ -9,7 +9,12 @@
 #define SRC_HW_HW_H_
 
 #include "hw_def.h"
-#include "hw.h"
+//#include "hw.h"
+#include "led.h"
+#include "uart.h"
+#include "usb.h"
+#include "rtc.h"
+#include "reset.h"
 
 
 void hwInit(void);

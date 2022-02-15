@@ -23,7 +23,7 @@
 #include "bsp.h"
 
 /* USER CODE BEGIN INCLUDE */
-//버퍼를 만들기 위한 필수요소
+//버퍼�? 만들�? ?��?�� ?��?��?��?��
 
 USBD_CDC_LineCodingTypeDef LineCoding =
 		{
@@ -39,20 +39,20 @@ uint32_t rx_len = 512;
 uint8_t  rx_buf[512];
 
 
-//버퍼를 관리하는 함수 만들기
-//현재 버퍼에 들어온 데이터 갯수
+//버퍼�? �?리하?�� ?��?�� 만들�?
+//?��?�� 버퍼?�� ?��?��?�� ?��?��?�� �??��
 
 uint32_t cdc_Available(void)
 {
 	uint8_t ret;
 
-//	링버퍼의 갯수를 초과하지 않게 처리
+//	링버?��?�� �??���? 초과?���? ?���? 처리
 	ret = (rx_in - rx_out ) % rx_len;
 
 	return ret;
 }
 
-//데이터를 읽어가는 함수
+//?��?��?���? ?��?���??�� ?��?��
 
 uint8_t cdcRead(void)
 {
@@ -67,7 +67,7 @@ uint8_t cdcRead(void)
 	return ret;
 }
 
-//버퍼에 데이터를 쓰는 함수
+//버퍼?�� ?��?��?���? ?��?�� ?��?��
 
 void cdcDataIn(uint8_t rx_data)
 {
@@ -84,7 +84,7 @@ void cdcDataIn(uint8_t rx_data)
 
 }
 
-//usb 통신으로 데이터를 보내는 함수
+//usb ?��?��?���? ?��?��?���? 보내?�� ?��?��
 
 uint32_t cdcWrite(uint8_t *p_data, uint32_t length)
 {
@@ -106,7 +106,7 @@ uint32_t cdcWrite(uint8_t *p_data, uint32_t length)
 		{
 			return 0;
 		}
-//		타임아웃 처리 (while 무한루프)
+//		???��?��?�� 처리 (while 무한루프)
 		if (millis()-pre_time >= 100)
 		{
 			break;
@@ -118,7 +118,7 @@ uint32_t cdcWrite(uint8_t *p_data, uint32_t length)
 }
 
 
-// 현재 설정된 Baudrate가 얼만지 확인할수 있는 API 하나 추가
+// ?��?�� ?��?��?�� Baudrate�? ?��만�? ?��?��?��?�� ?��?�� API ?��?�� 추�?
 uint32_t cdcGetBaud(void)
 {
 	return LineCoding.bitrate;

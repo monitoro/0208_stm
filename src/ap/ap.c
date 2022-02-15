@@ -6,8 +6,8 @@
  */
 
 #include "ap.h"
-#include "led.h"
-#include "uart.h"
+//#include "led.h"
+//#include "uart.h"
 //extern uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len);
 
 
@@ -28,12 +28,15 @@ void apMain(void)
 	pre_baud = uartGetBaud(_DEF_UART1);
 	pre_time = millis();
 
+
 	while(1)
 	{
 		if (millis()-pre_time >= 500)
 		{
 			pre_time = millis();
 			ledToggle(_DEF_LED1);
+
+			uartPrintf(_DEF_UART1,"ResetCount : %d\n",resetGetCount());
 		}
 
 		if (uartAvailable(_DEF_UART1) > 0)
